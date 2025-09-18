@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Sale</title>
+    <style>
+        body.page-background {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .form-container {
+            max-width: 650px; /* Increased max-width for better spacing */
+            margin: 40px auto;
+            padding: 40px; /* Increased padding */
+            background-color: #ffffff;
+            border-radius: 10px; /* Slightly more rounded corners */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Softer, more diffused shadow */
+        }
+
+        .form-container h2 {
+            text-align: center;
+            color: #2c3e50; /* Darker, more modern blue */
+            margin-bottom: 35px; /* Increased margin */
+            font-size: 28px; /* Larger font size */
+            font-weight: 600; /* Bolder */
+        }
+
+        .form-container div:not(.search-container):not(.search-results):not(#quantity_error) {
+            margin-bottom: 25px; /* Increased margin for form elements */
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 10px; /* Increased margin */
+            color: #34495e; /* Slightly different shade for labels */
+            font-weight: 600; /* Bolder labels */
+            font-size: 16px;
+        }
+
+        .form-container input,
+        .form-container select,
+        .form-container textarea {
+            width: 100%;
+            padding: 12px; /* Increased padding */
+            border: 1px solid #bdc3c7; /* Lighter border */
+            border-radius: 5px; /* Slightly more rounded */
+            font-size: 16px;
+            color: #2c3e50;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-container input:focus,
+        .form-container select:focus,
+        .form-container textarea:focus {
+            outline: none;
+            border-color: #3498db; /* Brighter blue on focus */
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25); /* Softer focus ring */
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 15px; /* Increased padding */
+            background-color: #3498db; /* Brighter blue */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px; /* Larger font size */
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .form-container button:hover {
+            background-color: #2980b9; /* Darker blue on hover */
+            transform: translateY(-2px); /* Subtle lift effect */
+        }
+
+        .form-container textarea {
+            min-height: 120px; /* Increased min-height */
+            resize: vertical;
+        }
+
+        /* Search input styling */
+        .search-container {
+            position: relative;
+            margin-bottom: 25px; /* Consistent margin */
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .search-results {
+            position: absolute;
+            top: calc(100% + 5px); /* Add a small gap */
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            max-height: 220px; /* Increased max height */
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .search-result-item {
+            padding: 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #ecf0f1; /* Lighter separator */
+            font-size: 15px;
+            color: #2c3e50;
+        }
+
+        .search-result-item:hover {
+            background-color: #f0f6fa; /* Lighter hover */
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Messages styling */
+        .messages {
+            max-width: 650px;
+            margin: 20px auto;
+            padding: 0; /* Remove padding if alerts have their own */
+            list-style: none; /* Remove list bullets if it's a ul/ol */
+        }
+
+        .alert {
+            padding: 15px 20px; /* Increased padding */
+            margin-bottom: 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            border: 1px solid transparent;
+        }
+
+        .alert.success {
+            background-color: #d1f2eb; /* Softer green */
+            color: #0e6a50;
+            border-color: #a8e0d5;
+        }
+
+        .alert.error,
+        .form-error-message {
+            background-color: #fdecea; /* Softer red */
+            color: #942a37;
+            border-color: #f8c9cf;
+            padding: 10px; /* Specific padding for form error */
+            margin-top: 5px; /* Space above error message */
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .form-error-message {
+             display: block !important; /* Ensure it's visible when it has content */
+        }
+
+        /* Navigation Buttons Styling */
+        .navigation-buttons {
+            text-align: center;
+            margin-bottom: 30px; /* Increased margin */
+        }
+
+        .nav-button {
+            display: inline-block;
+            padding: 12px 25px; /* Increased padding */
+            background-color: #5dade2; /* Slightly different blue */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 0 10px; /* Adjusted margin */
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .nav-button:hover {
+            background-color: #4a90e2; /* Darker on hover */
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body class="page-background">
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="navigation-buttons">
+        <a href="{% url 'sales_dashboard' %}" class="nav-button">Sales Dashboard</a>
+        <a href="{% url 'admin_dashboard' %}" class="nav-button">Home</a>
+    </div>
+
+    <div class="form-container">
+        <h2>Record a Sale</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div>
+                <label for="id_farmer_name">Farmer Name:</label>
+                {{ form.farmer_name }}
+            </div>
+            <div>
+                <label for="id_contact_number">Contact Number:</label>
+                {{ form.contact_number }}
+            </div>
+            <div>
+                <label for="id_aadhar_number">Aadhar Number:</label>
+                {{ form.aadhar_number }}
+            </div>
+            <div>
+                <label for="id_address">Address:</label>
+                {{ form.address }}
+            </div>
+            <div class="search-container">
+                <label for="fertilizer_search">Fertilizer:</label>
+                <input type="text" id="fertilizer_search" class="search-input" placeholder="Search fertilizer...">
+                <div id="search_results" class="search-results"></div>
+                {{ form.fertilizer }}
+            </div>
+            <div>
+                <label for="id_quantity_sold">Quantity Sold:</label>
+                {{ form.quantity_sold }}
+                <div id="quantity_error" class="form-error-message" style="display: none;">Quantity must be greater than 0 and cannot exceed available stock</div>
+            </div>
+            <div>
+                <label for="id_unit_price">Unit Price:</label>
+                {{ form.unit_price }}
+            </div>
+            <button type="submit">Save Sale</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('fertilizer_search');
+            const searchResults = document.getElementById('search_results');
+            const fertilizerSelect = document.getElementById('id_fertilizer');
+            const quantityInput = document.getElementById('id_quantity_sold');
+            const quantityError = document.getElementById('quantity_error');
+            
+            // Hide the original select element
+            fertilizerSelect.style.display = 'none';
+            
+            // Function to update search results
+            function updateSearchResults(query) {
+                const options = fertilizerSelect.options;
+                const results = [];
+                
+                for (let i = 0; i < options.length; i++) {
+                    if (options[i].text.toLowerCase().includes(query.toLowerCase())) {
+                        results.push(options[i]);
+                    }
+                }
+                
+                searchResults.innerHTML = '';
+                results.forEach(option => {
+                    const div = document.createElement('div');
+                    div.className = 'search-result-item';
+                    div.textContent = option.text;
+                    div.onclick = function() {
+                        fertilizerSelect.value = option.value; // Update the hidden select element
+                        searchInput.value = option.text; // Update the search input
+                        searchResults.style.display = 'none';
+                        // Get the available quantity for the selected fertilizer
+                        fetch(`/get_fertilizer_quantity/${option.value}/`)
+                            .then(response => response.json())
+                            .then(data => {
+                                quantityInput.setAttribute('max', data.quantity);
+                                validateQuantity();
+                            });
+                    };
+                    searchResults.appendChild(div);
+                });
+                
+                searchResults.style.display = results.length > 0 ? 'block' : 'none';
+            }
+
+            // Function to validate quantity
+            function validateQuantity() {
+                const maxQuantity = parseInt(quantityInput.getAttribute('max'));
+                const enteredQuantity = parseInt(quantityInput.value) || 0;
+                
+                if (enteredQuantity <= 0) {
+                    quantityError.style.display = 'block';
+                    quantityError.textContent = 'Quantity must be greater than 0';
+                    quantityInput.setCustomValidity('Quantity must be greater than 0');
+                } else if (enteredQuantity > maxQuantity) {
+                    quantityError.style.display = 'block';
+                    quantityError.textContent = 'Quantity cannot exceed available stock';
+                    quantityInput.setCustomValidity('Quantity cannot exceed available stock');
+                } else {
+                    quantityError.style.display = 'none';
+                    quantityInput.setCustomValidity('');
+                }
+            }
+            
+            // Event listeners
+            searchInput.addEventListener('input', function() {
+                updateSearchResults(this.value);
+            });
+            
+            searchInput.addEventListener('focus', function() {
+                updateSearchResults(this.value);
+            });
+
+            quantityInput.addEventListener('input', validateQuantity);
+            
+            // Close search results when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                    searchResults.style.display = 'none';
+                }
+            });
+            
+            // Initialize with the current selected value
+            if (fertilizerSelect.value) {
+                searchInput.value = fertilizerSelect.options[fertilizerSelect.selectedIndex].text;
+                fetch(`/get_fertilizer_quantity/${fertilizerSelect.value}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        quantityInput.setAttribute('max', data.quantity);
+                        validateQuantity();
+                    });
+            }
+        });
+    </script>
+</body>
+</html>

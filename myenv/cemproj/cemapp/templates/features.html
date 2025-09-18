@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chemical Fertilizer Features</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary-color: #1a5f7a;
+            --secondary-color: #86c232;
+            --accent-color: #ff6b6b;
+            --light-bg: #f8f9fa;
+            --dark-bg: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: var(--light-bg);
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, rgba(26,95,122,0.9), rgba(44,62,80,0.9)), url('https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            padding: 150px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.1;
+        }
+        
+        .feature-card {
+            border: none;
+            border-radius: 20px;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            background: white;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .icon-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.4s ease;
+        }
+        
+        .feature-card:hover .icon-circle {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .icon-circle i {
+            font-size: 2.5rem;
+            color: white;
+        }
+        
+        .benefits-section {
+            background: linear-gradient(135deg, var(--light-bg), #e9ecef);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .benefits-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231a5f7a' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 50px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .stats-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .stats-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .application-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .application-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(26,95,122,0.1), rgba(134,194,50,0.1));
+            z-index: 1;
+        }
+        
+        .application-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .application-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-bg));
+            color: white;
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.1;
+        }
+        
+        .btn-custom {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            color: white;
+            font-weight: bold;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .btn-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            color: white;
+        }
+
+        .header-nav {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .home-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .home-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            color: white;
+            text-decoration: none;
+        }
+
+        .home-btn i {
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .header-nav {
+                top: 15px;
+                right: 15px;
+            }
+            
+            .home-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Navigation -->
+    <div class="header-nav">
+        <a href="/" class="home-btn animate__animated animate__fadeIn">
+            <i class="fas fa-home"></i>
+            Home
+        </a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-4 mb-4 animate__animated animate__fadeInDown">Chemical Fertilizer Features</h1>
+            <p class="lead animate__animated animate__fadeInUp animate__delay-1s">Enhancing Agricultural Productivity with Advanced Solutions</p>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="stats-card animate__animated animate__fadeIn">
+                        <div class="stats-number">98%</div>
+                        <p>Nutrient Absorption</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card animate__animated animate__fadeIn animate__delay-1s">
+                        <div class="stats-number">50%</div>
+                        <p>Faster Growth</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card animate__animated animate__fadeIn animate__delay-2s">
+                        <div class="stats-number">30%</div>
+                        <p>Higher Yield</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stats-card animate__animated animate__fadeIn animate__delay-3s">
+                        <div class="stats-number">24/7</div>
+                        <p>Nutrient Availability</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center section-title animate__animated animate__fadeIn">Key Features</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card feature-card animate__animated animate__fadeInUp">
+                        <div class="card-body p-4">
+                            <div class="icon-circle">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <h3 class="text-center mb-3">Nutrient-Rich</h3>
+                            <p class="text-center">Precisely formulated with essential nutrients (N-P-K) to promote healthy plant growth and maximize crop yields.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card animate__animated animate__fadeInUp animate__delay-1s">
+                        <div class="card-body p-4">
+                            <div class="icon-circle">
+                                <i class="fas fa-tachometer-alt"></i>
+                            </div>
+                            <h3 class="text-center mb-3">Fast-Acting</h3>
+                            <p class="text-center">Quick nutrient release ensures immediate availability to plants, leading to faster growth and development.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card animate__animated animate__fadeInUp animate__delay-2s">
+                        <div class="card-body p-4">
+                            <div class="icon-circle">
+                                <i class="fas fa-balance-scale"></i>
+                            </div>
+                            <h3 class="text-center mb-3">Precise Formulation</h3>
+                            <p class="text-center">Carefully balanced nutrient ratios tailored to specific crop needs and soil conditions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits-section py-5">
+        <div class="container">
+            <h2 class="text-center section-title animate__animated animate__fadeIn">Key Benefits</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card h-100 animate__animated animate__fadeInLeft">
+                        <div class="card-body">
+                            <h4 class="card-title"><i class="fas fa-chart-line text-primary me-2"></i>Increased Yield</h4>
+                            <p class="card-text">Significantly boosts crop productivity and quality through optimal nutrient delivery.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100 animate__animated animate__fadeInRight">
+                        <div class="card-body">
+                            <h4 class="card-title"><i class="fas fa-clock text-primary me-2"></i>Time-Efficient</h4>
+                            <p class="card-text">Reduces the time needed for plants to reach maturity and produce harvestable yields.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100 animate__animated animate__fadeInLeft">
+                        <div class="card-body">
+                            <h4 class="card-title"><i class="fas fa-shield-alt text-primary me-2"></i>Disease Resistance</h4>
+                            <p class="card-text">Strengthens plants' natural defense mechanisms against diseases and pests.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100 animate__animated animate__fadeInRight">
+                        <div class="card-body">
+                            <h4 class="card-title"><i class="fas fa-globe text-primary me-2"></i>Soil Health</h4>
+                            <p class="card-text">Maintains and improves soil fertility for sustainable agricultural practices.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Application Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center section-title animate__animated animate__fadeIn">Application Methods</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="application-card animate__animated animate__fadeInUp">
+                        <i class="fas fa-spray-can application-icon"></i>
+                        <h4>Foliar Spray</h4>
+                        <p>Direct application to plant leaves for quick nutrient absorption</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="application-card animate__animated animate__fadeInUp animate__delay-1s">
+                        <i class="fas fa-tint application-icon"></i>
+                        <h4>Soil Application</h4>
+                        <p>Traditional method of applying fertilizers to the soil</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="application-card animate__animated animate__fadeInUp animate__delay-2s">
+                        <i class="fas fa-tint-slash application-icon"></i>
+                        <h4>Drip Irrigation</h4>
+                        <p>Efficient delivery through irrigation systems</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section text-center">
+        <div class="container">
+            <h2 class="mb-4 animate__animated animate__fadeIn">Ready to Boost Your Crop Yields?</h2>
+            <p class="lead mb-4 animate__animated animate__fadeIn animate__delay-1s">Discover the power of our advanced chemical fertilizers</p>
+            <a href="#" class="btn btn-custom btn-lg animate__animated animate__fadeIn animate__delay-2s">Get Started Today</a>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Add animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.animate__animated');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.visibility = 'visible';
+                        entry.target.classList.add(entry.target.dataset.animation);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            elements.forEach(element => {
+                element.style.visibility = 'hidden';
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>

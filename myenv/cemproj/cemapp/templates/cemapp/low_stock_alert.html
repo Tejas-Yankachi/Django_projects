@@ -1,0 +1,145 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Alert</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --alert-color: #e74c3c;
+            --success-color: #2ecc71;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--background-color) 0%, #e6e9ed 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        .alert-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 20px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .alert-container h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-size: 28px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .alert-container h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, var(--alert-color), var(--success-color));
+            border-radius: 3px;
+        }
+
+        .alert-container ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .alert-container li {
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            background-color: white;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .alert-container li:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .alert-container li:last-child {
+            margin-bottom: 0;
+        }
+
+        .alert-container li.success {
+            background-color: #e8f5e9;
+            color: var(--success-color);
+            border-left: 4px solid var(--success-color);
+        }
+
+        .alert-container li.alert {
+            background-color: #ffebee;
+            color: var(--alert-color);
+            border-left: 4px solid var(--alert-color);
+        }
+
+        .alert-container li::before {
+            margin-right: 15px;
+            font-size: 20px;
+        }
+
+        .alert-container li.success::before {
+            content: '✓';
+        }
+
+        .alert-container li.alert::before {
+            content: '⚠';
+        }
+
+        @media (max-width: 600px) {
+            .alert-container {
+                margin: 10px;
+                padding: 20px;
+            }
+
+            .alert-container h2 {
+                font-size: 24px;
+            }
+
+            .alert-container li {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="alert-container">
+        <h2>Low Stock Fertilizers</h2>
+        <ul>
+            {% for item in low_stock_items %}
+                <li class="alert">{{ item.name }} - Only {{ item.quantity }} units left</li>
+            {% empty %}
+                <li class="success">All stock levels are healthy</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

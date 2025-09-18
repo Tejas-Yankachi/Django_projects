@@ -1,0 +1,32 @@
+{% extends 'base_admin.html' %}
+{% block content %}
+<head>
+    <title>Recommendation Form</title>
+    <!-- Include MDBootstrap CSS -->
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css"
+        rel="stylesheet"
+    />
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Recommendation Form</h1>
+        <form method="post" class="p-4 shadow-2-strong rounded">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Save</button>
+        </form>
+        <div class="text-center mt-3">
+            <a href="{% url 'recommendation_list' %}" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+
+    <!-- Include MDBootstrap JS -->
+    <script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js"
+    ></script>
+</body>
+{% endblock %}

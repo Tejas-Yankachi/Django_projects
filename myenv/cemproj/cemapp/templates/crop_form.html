@@ -1,0 +1,75 @@
+{% extends 'base_admin.html' %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Form</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet">
+    <style>
+        .form-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .form-title {
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+        .form-control {
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .form-control:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+        .form-label {
+            font-weight: 500;
+            color: #34495e;
+        }
+        .btn-submit {
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        .btn-cancel {
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container bg-white">
+            <h1 class="form-title text-center">Crop Form</h1>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-outline mb-4">
+                    <label for="id_name" class="form-label">Crop Name</label>
+                    {{ form.name }}
+                </div>
+                <div class="form-outline mb-4">
+                    <label for="id_ideal_soil" class="form-label">Ideal Soil</label>
+                    {{ form.ideal_soil }}
+                </div>
+                <div class="form-outline mb-4">
+                    <label for="id_description" class="form-label">Description</label>
+                    {{ form.description }}
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-submit">Submit</button>
+                    <a href="{% url 'crop_list' %}" class="btn btn-secondary btn-cancel">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js"></script>
+</body>
+{% endblock %}

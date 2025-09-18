@@ -1,0 +1,52 @@
+{% extends 'base_admin.html' %}
+{% block content %}
+<head>
+    <title>Recommendation Details</title>
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css"
+        rel="stylesheet"
+    />
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Recommendation Details</h1>
+        <div class="card shadow-2-strong">
+            <div class="card-body">
+                <h5 class="card-title">Crop: {{ recommendation.crop.name }}</h5>
+                <p class="card-text"><strong>Soil Type:</strong> {{ recommendation.soil_type.name }}</p>
+                <p class="card-text"><strong>Suitable Fertilizers:</strong></p>
+                <div class="row">
+                    {% for fertilizer in recommendation.suitable_fertilizers.all %}
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            {% if fertilizer.image %}
+                            <img 
+                                src="{{ fertilizer.image.url }}" 
+                                class="card-img-top" 
+                                alt="{{ fertilizer.name }}" 
+                                style="height: 200px; object-fit: cover;"
+                            />
+                            {% else %}
+                            <img 
+                                src="https://via.placeholder.com/200" 
+                                class="card-img-top" 
+                                alt="No Image Available" 
+                                style="height: 200px; object-fit: cover;"
+                            />
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ fertilizer.name }}</h5>
+                                <p class="card-text"><strong>Type:</strong> {{ fertilizer.type }}</p>
+                                <p class="card-text"><strong>Manufacturer:</strong> {{ fertilizer.manufacturer }}</p>
+                                <p class="card-text"><strong>Description:</strong> {{ fertilizer.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <a href="{% url 'recommendation_list' %}" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

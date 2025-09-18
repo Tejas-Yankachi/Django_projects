@@ -1,0 +1,101 @@
+{% extends 'base_admin.html' %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop List</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet">
+    <style>
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .table thead th {
+            background-color: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+            color: #495057;
+            font-weight: 600;
+        }
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+            transition: background-color 0.2s ease;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        .btn-add {
+            background-color: #28a745;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+            transition: background-color 0.2s ease;
+        }
+        .btn-add:hover {
+            background-color: #218838;
+            color: white;
+        }
+        .btn-edit {
+            background-color: #ffc107;
+            border: none;
+            color: #212529;
+        }
+        .btn-delete {
+            background-color: #dc3545;
+            border: none;
+        }
+        .page-title {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center page-title">Crop List</h1>
+        <div class="table-container">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Ideal Soil</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for crop in crops %}
+                    <tr>
+                        <td>{{ crop.name }}</td>
+                        <td>{{ crop.ideal_soil.name }}</td>
+                        <td>{{ crop.description }}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <form method="POST" action="{% url 'crop_delete' crop.id %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm btn-delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                                <a href="{% url 'crop_update' crop.id %}" class="btn btn-warning btn-sm btn-edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+{% endblock %}

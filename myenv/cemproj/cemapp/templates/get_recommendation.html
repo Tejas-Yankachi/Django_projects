@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Get Recommendation</title>
+    <link
+        href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css"
+        rel="stylesheet"
+    />
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            max-width: 1200px;
+            padding: 2rem;
+        }
+        .form-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+        }
+        .page-title {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        .page-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: #4CAF50;
+        }
+        .form-label {
+            color: #2c3e50;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .form-select, .form-control {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            padding: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        .form-select:focus, .form-control:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+        }
+        .btn-primary {
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        .btn-primary:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+        .recommendations-title {
+            color: #2c3e50;
+            font-weight: 600;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        .card-img-top {
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+        .card-body {
+            padding: 1.5rem;
+        }
+        .card-title {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .card-text {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        .card-text strong {
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="page-title">Get Fertilizer Recommendation</h1>
+        <div class="form-container">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="soil_type" class="form-label">Select Soil Type</label>
+                    <select name="soil_type" id="soil_type" class="form-select">
+                        {% for soil in soil_types %}
+                        <option value="{{ soil.id }}">{{ soil.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="crop" class="form-label">Select Crop</label>
+                    <select name="crop" id="crop" class="form-select">
+                        {% for crop in crops %}
+                        <option value="{{ crop.id }}">{{ crop.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Get Recommendation</button>
+            </form>
+        </div>
+
+        {% if recommendations %}
+        <h2 class="recommendations-title">Recommendations</h2>
+        <div class="row g-4">
+            {% for recommendation in recommendations %}
+            {% for fertilizer in recommendation.suitable_fertilizers.all %}
+            <div class="col-md-4">
+                <div class="card">
+                    {% if fertilizer.image %}
+                    <img 
+                        src="{{ fertilizer.image.url }}" 
+                        class="card-img-top" 
+                        alt="{{ fertilizer.name }}" 
+                        style="height: 200px; object-fit: cover;"
+                    />
+                    {% else %}
+                    <img 
+                        src="https://via.placeholder.com/200" 
+                        class="card-img-top" 
+                        alt="No Image Available" 
+                        style="height: 200px; object-fit: cover;"
+                    />
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ fertilizer.name }}</h5>
+                        <p class="card-text"><strong>Type:</strong> {{ fertilizer.type }}</p>
+                        <p class="card-text"><strong>Manufacturer:</strong> {{ fertilizer.manufacturer }}</p>
+                        <p class="card-text"><strong>Description:</strong> {{ fertilizer.description }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Payment</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-container {
+            max-width: 500px;
+            width: 100%;
+            margin: 20px;
+            padding: 30px;
+            border-radius: 12px;
+            background-color: white;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .form-container:hover {
+            transform: translateY(-5px);
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-container p {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-container label {
+            font-weight: 500;
+            color: #34495e;
+            font-size: 14px;
+        }
+
+        .form-container input, 
+        .form-container select,
+        .form-container textarea {
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+            width: 100%; /* Ensure full width */
+        }
+
+        .form-container textarea {
+            min-height: 120px; /* Sensible default height */
+            resize: vertical; /* Allow vertical resize */
+            line-height: 1.5; /* Improved readability */
+        }
+
+        .form-container input:focus, 
+        .form-container select:focus,
+        .form-container textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .form-container button {
+            margin-top: 20px;
+            padding: 14px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-container button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+        }
+
+        .form-container button:active {
+            transform: translateY(0);
+        }
+
+        .errorlist {
+            color: #e74c3c;
+            font-size: 13px;
+            margin-top: 5px;
+            list-style: none;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Add Payment</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Submit Payment</button>
+        </form>
+    </div>
+</body>
+</html>

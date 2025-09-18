@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2E7D32;
+            --primary-dark: #1B5E20;
+            --primary-light: #E8F5E9;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --button-margin: 0.5rem;
+            --container-padding: 2rem;
+            --card-radius: 10px;
+            --sidebar-width: 250px;
+            --header-height: 60px;
+            --hover-scale: 1.02;
+            --active-scale: 0.98;
+            --base-font-size: 18px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: var(--text-dark);
+            line-height: 1.8;
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+            font-size: var(--base-font-size);
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--primary-color);
+            color: var(--text-light);
+            padding: 1rem;
+            position: fixed;
+            height: 100vh;
+            transition: var(--transition);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            background: var(--primary-color);
+            z-index: 1;
+        }
+
+        .sidebar-header h2 {
+            font-size: 2rem;
+        }
+
+        .sidebar-menu {
+            margin-top: 2rem;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 1.4rem 1.6rem;
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: var(--card-radius);
+            margin-bottom: 0.5rem;
+            transition: var(--transition);
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+            font-size: 1.5rem;
+        }
+
+        .sidebar-menu a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: rgba(255, 255, 255, 0.1);
+            transition: width 0.3s ease;
+        }
+
+        .sidebar-menu a:hover::before {
+            width: 100%;
+        }
+
+        .sidebar-menu a:hover {
+            background: var(--primary-dark);
+            transform: translateX(5px);
+        }
+
+        .sidebar-menu a.active {
+            background: var(--primary-dark);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar-menu i {
+            margin-right: 1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: var(--container-padding);
+            min-height: 100vh;
+            transition: var(--transition);
+        }
+
+        .header {
+            background-color: white;
+            color: var(--text-dark);
+            padding: 0.5rem var(--container-padding);
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-radius: var(--card-radius);
+            margin-bottom: 1rem;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .header h1 {
+            font-size: clamp(1.8rem, 3vw, 2.2rem);
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: var(--button-margin);
+        }
+
+        .header-buttons a {
+            text-decoration: none;
+            color: var(--text-light);
+            padding: 1rem 1.6rem;
+            border-radius: var(--card-radius);
+            background: var(--primary-dark);
+            transition: var(--transition);
+            white-space: nowrap;
+            margin: 0 var(--button-margin);
+            font-size: 1.5rem;
+        }
+
+        .header-buttons a:hover {
+            background: #145A32;
+            transform: translateY(-2px);
+        }
+
+        .header-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+            max-width: 1600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2.6rem;
+            border-radius: var(--card-radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary-color);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px) scale(var(--hover-scale));
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .stat-card:active {
+            transform: scale(var(--active-scale));
+        }
+
+        .stat-icon {
+            font-size: 3.6rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover .stat-icon {
+            transform: scale(1.1);
+            opacity: 1;
+        }
+
+        .stat-value {
+            font-size: 3.6rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1.6rem;
+            font-weight: 500;
+        }
+
+        /* Card Styles */
+        .card {
+            background: white;
+            border-radius: var(--card-radius);
+            box-shadow: var(--shadow);
+            padding: 2.6rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+            max-width: 1600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-light);
+        }
+
+        .card-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .action-button {
+            text-decoration: none;
+            padding: 1.6rem;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            border-radius: var(--card-radius);
+            transition: var(--transition);
+            font-weight: 500;
+            box-shadow: var(--shadow);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            white-space: nowrap;
+            font-size: 1.6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .action-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .action-button:hover {
+            background: #145A32;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .action-button:active {
+            transform: translateY(-1px) scale(var(--active-scale));
+        }
+
+        .action-button i {
+            font-size: 1.8rem;
+            transition: var(--transition);
+        }
+
+        .action-button:hover i {
+            transform: scale(1.2);
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary-dark);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
+            color: var(--primary-color);
+        }
+
+        .menu-toggle:active {
+            transform: scale(0.95);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                width: var(--sidebar-width);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .main-content.sidebar-active {
+                margin-left: var(--sidebar-width);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                height: auto;
+                padding: 1rem;
+            }
+
+            .header h1 {
+                margin-bottom: 1rem;
+            }
+
+            .header-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            :root {
+                --button-margin: 0.25rem;
+                --container-padding: 1rem;
+            }
+
+            .header-buttons {
+                flex-direction: column;
+            }
+
+            .header-buttons a {
+                width: 100%;
+                margin: var(--button-margin) 0;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .main-content.sidebar-active {
+                margin-left: 0;
+            }
+        }
+
+        /* Large Desktop Styles */
+        @media (min-width: 1400px) {
+            .main-content {
+                padding: 2rem 4rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .action-buttons {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .stat-card {
+                padding: 2.5rem;
+            }
+
+            .stat-value {
+                font-size: 3rem;
+            }
+
+            .stat-icon {
+                font-size: 3rem;
+            }
+
+            .card-title {
+                font-size: 1.75rem;
+            }
+        }
+
+        /* Medium Desktop Styles */
+        @media (min-width: 992px) and (max-width: 1399px) {
+            .main-content {
+                padding: 2rem 3rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .action-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Custom Quick Action Buttons Styling */
+        .custom-quick-action {
+            /* Enhancements for .btn.btn-primary */
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+            will-change: transform, box-shadow; /* Hint for performance */
+        }
+
+        .custom-quick-action:hover,
+        .custom-quick-action:focus { /* :focus for accessibility */
+            transform: translateY(-5px) scale(1.03); /* Lift and slightly enlarge */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
+        }
+
+        .custom-quick-action:active {
+            transform: translateY(-2px) scale(0.99); /* Press down effect */
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .custom-quick-action i {
+            transition: transform 0.2s ease-out; /* Smooth icon transform */
+        }
+
+        .custom-quick-action:hover i {
+            transform: scale(1.15); /* Icon interactivity */
+        }
+
+        /* New Styles for Additional Features */
+        .search-bar {
+            position: relative;
+            margin: 1rem 0;
+            max-width: 600px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 1.2rem 1.2rem 1.2rem 4rem;
+            border: 2px solid var(--primary-light);
+            border-radius: var(--card-radius);
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            font-size: 1.6rem;
+        }
+
+        .notifications {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+        }
+
+        .notification-bell {
+            background: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4444;
+            color: white;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .notification-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: white;
+            border-radius: var(--card-radius);
+            box-shadow: var(--shadow);
+            width: 300px;
+            display: none;
+        }
+
+        .notification-dropdown.active {
+            display: block;
+        }
+
+        .notification-item {
+            padding: 1.6rem;
+            border-bottom: 1px solid var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            line-height: 1.6;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+
+        .notification-icon i {
+            font-size: 1.6rem;
+        }
+
+        .notification-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .notification-message {
+            font-size: 1.4rem;
+        }
+
+        .recent-activity {
+            margin-top: 2rem;
+        }
+
+        .recent-activity h2 {
+            font-size: 2rem;
+            margin-bottom: 1.4rem;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 1.6rem;
+            border-bottom: 1px solid var(--primary-light);
+            transition: var(--transition);
+            line-height: 1.6;
+        }
+
+        .activity-item:hover {
+            background: var(--primary-light);
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--primary-color);
+        }
+
+        .activity-icon i {
+            font-size: 1.6rem;
+        }
+
+        .activity-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        .activity-time {
+            font-size: 1.3rem;
+            color: #666;
+        }
+
+        .weather-widget {
+            background: linear-gradient(135deg, #2E7D32, #1B5E20);
+            color: white;
+            padding: 2.2rem;
+            border-radius: var(--card-radius);
+            margin-top: 2rem;
+        }
+
+        .weather-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .weather-header h3 {
+            font-size: 1.8rem;
+        }
+
+        .weather-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .weather-temp {
+            font-size: 3.6rem;
+            font-weight: 600;
+        }
+
+        .weather-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .weather-detail-item {
+            text-align: center;
+            padding: 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--card-radius);
+            font-size: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .weather-detail-item i {
+            font-size: 1.6rem;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 1.6rem;
+            background: var(--primary-light);
+            border-radius: var(--card-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .user-profile:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .user-avatar i {
+            font-size: 1.8rem;
+        }
+
+        .user-profile span {
+            font-size: 1.5rem;
+        }
+
+        .settings-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: var(--card-radius);
+            box-shadow: var(--shadow);
+            width: 200px;
+            display: none;
+        }
+
+        .settings-dropdown.active {
+            display: block;
+        }
+
+        .settings-item {
+            padding: 1.4rem 1.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            font-size: 1.5rem;
+        }
+
+        .settings-item:hover {
+            background: var(--primary-light);
+        }
+
+        .settings-item i {
+            font-size: 1.6rem;
+        }
+
+        /* Chart Canvas Styling */
+        #monthlySalesChart,
+        #duesOverviewChart,
+        #monthlyOrdersChart {
+            width: 100%;            /* Attempt to fill the width of the card-body */
+            aspect-ratio: 1 / 1;    /* Maintain a square aspect ratio */
+            max-width: 180px;       /* Max width to keep it small */
+            max-height: 180px;      /* Max height to keep it small and square */
+            margin-left: auto;      /* Center the chart if card-body is wider */
+            margin-right: auto;     /* Center the chart if card-body is wider */
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar p-3">
+        <div class="text-center mb-4">
+            <h2 class="fs-2">Admin Panel</h2>
+        </div>
+        <div class="nav flex-column">
+            <a href="{% url 'home' %}" class="nav-link text-white fs-5 py-3">
+                <i class="fas fa-house me-2"></i>
+                <span>Home</span>
+            </a>
+            <a href="{% url 'admin_dashboard' %}" class="nav-link text-white fs-5 py-3 {% if request.path|default:'' == '/admin_dashboard/' %}active bg-primary-dark{% endif %}">
+                <i class="fas fa-home me-2"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="{% url 'fertilizer_list' %}" class="nav-link text-white fs-5 py-3 {% if 'fertilizer' in request.path|default:'' %}active bg-primary-dark{% endif %}">
+                <i class="fas fa-flask me-2"></i>
+                <span>Fertilizers</span>
+            </a>
+            <a href="{% url 'crop_list' %}" class="nav-link text-white fs-5 py-3 {% if 'crop' in request.path|default:'' %}active bg-primary-dark{% endif %}">
+                <i class="fas fa-leaf me-2"></i>
+                <span>Crops</span>
+            </a>
+            <a href="{% url 'soiltype_list' %}" class="nav-link text-white fs-5 py-3 {% if 'soiltype' in request.path|default:'' %}active bg-primary-dark{% endif %}">
+                <i class="fas fa-mountain me-2"></i>
+                <span>Soil Types</span>
+            </a>
+            <a href="{% url 'recommendation_list' %}" class="nav-link text-white fs-5 py-3 {% if 'recommendation' in request.path|default:'' %}active bg-primary-dark{% endif %}">
+                <i class="fas fa-chart-line me-2"></i>
+                <span>Recommendations</span>
+            </a>
+            <a href="{% url 'sales_dashboard' %}" class="nav-link text-white fs-5 py-3 {% if 'sales' in request.path|default:'' %}active bg-primary-dark{% endif %}">
+                <i class="fas fa-shopping-cart me-2"></i>
+                <span>Sales</span>
+            </a>
+            <a href="{% url 'low_stock_alert' %}" class="nav-link text-white fs-5 py-3 {% if 'low_stock' in request.path|default:'' %}active bg-primary-dark{% endif %}">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <span>Low Stock Alerts</span>
+            </a>
+            <a href="{% url 'logout' %}" class="nav-link text-white fs-5 py-3">
+                <i class="fas fa-sign-out-alt me-2"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content p-4">
+        <div class="container-fluid">
+            <!-- Header -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <button class="btn btn-primary d-lg-none" onclick="toggleSidebar()">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <h1 class="fs-1 fw-bold text-primary">Dashboard Overview</h1>
+                        <div class="position-relative">
+                            <div class="dropdown">
+                                <button class="btn btn-light dropdown-toggle fs-5" type="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-user me-2"></i>
+                                    {{ request.user.username }}
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end fs-5">
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Grid -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-3">
+                            <div class="card stat-card h-100">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-flask fa-3x text-primary mb-3"></i>
+                                    <h3 class="fs-1 fw-bold text-primary">{{ total_fertilizers }}</h3>
+                                    <p class="fs-4 text-muted">Total Fertilizers</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card stat-card h-100">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-mountain fa-3x text-primary mb-3"></i>
+                                    <h3 class="fs-1 fw-bold text-primary">{{ total_soil_types }}</h3>
+                                    <p class="fs-4 text-muted">Total Soil Types</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card stat-card h-100">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-leaf fa-3x text-primary mb-3"></i>
+                                    <h3 class="fs-1 fw-bold text-primary">{{ total_crops }}</h3>
+                                    <p class="fs-4 text-muted">Total Crops</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card stat-card h-100">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-dollar-sign fa-3x text-primary mb-3"></i>
+                                    <h3 class="fs-1 fw-bold text-primary">{{ total_sales }}</h3>
+                                    <p class="fs-4 text-muted">Total Sales</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-3">
+                            <a href="{% url 'fertilizer_create' %}" class="btn btn-primary btn-lg w-100 fs-5 custom-quick-action">
+                                <i class="fas fa-flask me-2"></i>Add Fertilizer
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{% url 'crop_create' %}" class="btn btn-primary btn-lg w-100 fs-5 custom-quick-action">
+                                <i class="fas fa-seedling me-2"></i>Add Crop
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{% url 'soiltype_create' %}" class="btn btn-primary btn-lg w-100 fs-5 custom-quick-action">
+                                <i class="fas fa-layer-group me-2"></i>Add Soil Type
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{% url 'add_sale' %}" class="btn btn-primary btn-lg w-100 fs-5 custom-quick-action">
+                                <i class="fas fa-cart-plus me-2"></i>Add Sale
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h2 class="fs-2 mb-4">Recent Activity</h2>
+                                    {% if recent_activities %}
+                                        {% for activity in recent_activities %}
+                                        <div class="activity-item p-3 border-bottom">
+                                            <i class="fas {{ activity.icon }} text-primary fs-4 me-3"></i>
+                                            <div>
+                                                <h4 class="fs-5 mb-1">{{ activity.title }}</h4>
+                                                <p class="text-muted mb-0">{{ activity.timestamp|timesince }} ago</p>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <p class="text-muted">No recent activity available.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.querySelector('.sidebar');
+            const menuToggle = document.querySelector('.btn-primary');
+            
+            if (window.innerWidth <= 992 && 
+                !sidebar.contains(event.target) && 
+                !menuToggle.contains(event.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            const sidebar = document.querySelector('.sidebar');
+            if (window.innerWidth > 992) {
+                sidebar.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
